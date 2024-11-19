@@ -1,44 +1,55 @@
 #include <iostream>
+#include <vector>
+#include <algorithm>
 
-int main(int argc, char *argv[]) {
-    while (true)
+#include "orderbookentry.h"
+#include "MerkelMain.h"
+
+double computerAveragePrice(std::vector<OrderBookEntry>& entries) {
+    double sum;
+
+    for (unsigned i = 0; i < entries.size(); i++)
     {
-        std::cout << "1: Print help" << std::endl;
-        std::cout << "2: Print exchange" << std::endl;
-        std::cout << "3: Place an ask" << std::endl;
-        std::cout << "4: Place a bid" << std::endl;
-        std::cout << "5: Print wallet" << std::endl;
-        std::cout << "6: Continue" << std::endl;
+        sum += entries[i].price;
+    }
 
-        int userOption;
-        std::cout << "Type in 1-6" << std::endl;
-        std::cin >> userOption;
+    return sum / entries.size();
+}
 
-        switch (userOption)
+double computeLowPrice(std::vector<OrderBookEntry>& entries) {
+    double minPrice = 0;
+
+    for (unsigned int i = 0; i < entries.size(); i++)
+    {
+        if (minPrice == 0 || entries[i].price < minPrice)
         {
-        case 1:
-            std::cout << "Help - choose options from the menu" << std::endl;
-            std::cout << "and follow the on screen instructions" << std::endl;
-            break;
-        case 2:
-            std::cout << "Looking good there" << std::endl;
-            break;
-        case 3:
-            std::cout << "Make an offer" << std::endl;
-            break;
-        case 4:
-            std::cout << "Make a bid" << std::endl;
-            break;
-        case 5:
-            std::cout << "Some amount of money" << std::endl;
-            break;
-        case 6:
-            std::cout << "Doing financial things in the background" << std::endl;
-            break;
-        default:
-            std::cout << "Invalid choice. Choose 1-6" << std::endl;
-            break;
+            minPrice = entries[i].price;
         }
     }
+
+    return minPrice;
+}
+
+double computeHighPrice(std::vector<OrderBookEntry>& entries) {
+    double maxPrice = 0;
+
+    for (unsigned int i = 0; i < entries.size(); i++)
+    {
+        if (entries[i].price > maxPrice)
+        {
+            maxPrice = entries[i].price;
+        }
+    }
+
+    return maxPrice;
+}
+
+double computePriceSpread(std::vector<OrderBookEntry>& entries){
+    return computeHighPrice(entries) - computeLowPrice(entries);
+}
+
+int main(int argc, char *argv[]) {
+    MerkelMain app{};
+    app.init();
     return 0;
 }
