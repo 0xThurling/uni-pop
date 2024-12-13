@@ -2,11 +2,15 @@
 
 #include <vector>
 #include "orderbookentry.h"
+#include "OrderBook.h"
+#include "CsvReader.h"
 
 class MerkelMain
 {
     private:
-        std::vector<OrderBookEntry> orders;
+        // std::vector<OrderBookEntry> orders;
+
+        OrderBook orderBook {"20200317.csv"};
 
         void loadOrderBook();
         void printMenu();

@@ -101,6 +101,6 @@ OrderBookEntry CsvReader::stringToOBE(std::vector<std::string> tokens)
     }
     catch(const std::exception& e)
     {
-        return;
+        std::cout << "Error" << std::endl;
     }
 }

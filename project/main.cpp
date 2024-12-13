@@ -53,5 +53,4 @@ double computePriceSpread(std::vector<OrderBookEntry>& entries){
 int main(int argc, char *argv[]) {
     MerkelMain app{};
     app.init();
-    return 0;
 }

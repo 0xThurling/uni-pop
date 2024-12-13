@@ -31,23 +31,15 @@ void MerkelMain::printHelp()
 
 void MerkelMain::printMarketStats()
 {
-
-    int bids = 0;
-    int asks = 0;
-    for (size_t i = 0; i < orders.size(); i++)
+    std::string currentTime = "2020/03/17 17:01:24.884492";
+    for (const std::string &p : orderBook.getKnownProducts())
     {
-        if (orders[i].type == OrderBookType::bid)
-        {
-            bids++;
-        }
-        else if (orders[i].type == OrderBookType::ask)
-        {
-            asks++;
-        }
+        std::cout << "Product: " << p << std::endl;
+        std::vector<OrderBookEntry> entries = orderBook.getOrders(OrderBookType::ask, p, currentTime);
+        std::cout << "Asks seen: " << entries.size() << std::endl;
+        std::cout << "Max ask: " << OrderBook::getHighPrice(entries) << std::endl;
+        std::cout << "Min ask: " << OrderBook::getLowPrice(entries) << std::endl;
     }
-    
-    std::cout << "Bids: " << bids << std::endl;
-    std::cout << "Asks: " << asks << std::endl;
 }
 
 void MerkelMain::enterOffer()
@@ -99,7 +91,7 @@ void MerkelMain::processUserOption(int userOption)
 }
 
 void MerkelMain::loadOrderBook() {
-    orders = CsvReader::readCSV("20200317.csv");
+    // orders = CsvReader::readCSV("20200317.csv");
 }
 
 void MerkelMain::init(){
